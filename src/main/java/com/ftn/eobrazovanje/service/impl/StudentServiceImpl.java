@@ -23,7 +23,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student findByEmail(String email) {
-        return studentRepository.findByEmail(email);
+        return studentRepository.findByUser_Email(email);
     }
 
     @Override

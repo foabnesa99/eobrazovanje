@@ -6,11 +6,14 @@ import com.ftn.eobrazovanje.domain.dto.user.UserCreateRequest;
 import com.ftn.eobrazovanje.domain.dto.user.UserMapper;
 import com.ftn.eobrazovanje.domain.entity.user.Professor;
 import com.ftn.eobrazovanje.domain.entity.user.Student;
+import com.ftn.eobrazovanje.domain.entity.user.User;
+import com.ftn.eobrazovanje.exception.UserNotFoundException;
 import com.ftn.eobrazovanje.service.ProfessorService;
 import com.ftn.eobrazovanje.service.StudentService;
 import com.ftn.eobrazovanje.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +35,11 @@ public class UserServiceImpl implements UserService {
         }
 
             createProfessor(userCreateRequest);
+    }
+
+    @Override
+    public User getByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
     }
 
     private void createProfessor(UserCreateRequest userCreateRequest) {

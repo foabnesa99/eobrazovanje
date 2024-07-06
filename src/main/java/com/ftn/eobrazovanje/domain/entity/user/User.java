@@ -7,10 +7,13 @@ import com.ftn.eobrazovanje.domain.entity.base.BaseEntity;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import jakarta.persistence.*;
+import org.springframework.stereotype.Indexed;
+
 import java.time.LocalDate;
 import java.util.*;
 
@@ -24,17 +27,10 @@ import static jakarta.persistence.EnumType.STRING;
 @NoArgsConstructor
 
 @Table
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Entity
-public class User{
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    private Long id;
-
-    @Version
-    @JsonIgnore
-    private Long version;
+@Indexed
+@SQLDelete(sql = "UPDATE user SET deleted = true WHERE id = ?")
+public class User extends BaseEntity{
 
     @NotNull
     @Email

@@ -2,6 +2,7 @@ package com.ftn.eobrazovanje.domain.entity.base;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import org.hibernate.annotations.Type;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.*;
@@ -18,4 +19,8 @@ public abstract class BaseEntity {
     @Version
     @JsonIgnore
     private Long version;
+
+    @JsonIgnore
+    @javax.persistence.Column(columnDefinition = "BOOLEAN NOT NULL DEFAULT FALSE", nullable = false)
+    private boolean deleted = false;
 }

@@ -1,13 +1,11 @@
 package com.ftn.eobrazovanje.domain.entity.user;
 
 
+import com.ftn.eobrazovanje.domain.entity.base.BaseEntity;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.springframework.stereotype.Indexed;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 
 @Getter
 @Setter
@@ -16,9 +14,11 @@ import jakarta.persistence.UniqueConstraint;
 
 @Indexed
 @Entity(name = "student")
-@Table(name = "`student`", uniqueConstraints = @UniqueConstraint(name = "email_idx", columnNames = {"email"}))
-@SQLDelete(sql = "UPDATE student SET deleted = true WHERE id = ?")
-public class Student extends User{
+@Table
+public class Student extends BaseEntity{
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = jakarta.persistence.CascadeType.ALL)
+    private User user;
 
     private String studentId;
 

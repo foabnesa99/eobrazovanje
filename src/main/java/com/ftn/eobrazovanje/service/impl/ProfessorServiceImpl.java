@@ -31,7 +31,7 @@ public class ProfessorServiceImpl implements ProfessorService {
 
     @Override
     public Professor getByEmail(String email) {
-        return professorRepository.findByEmail(email);
+        return professorRepository.findByUser_Email(email);
     }
 
     @Override
