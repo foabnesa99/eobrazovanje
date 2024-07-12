@@ -1,6 +1,7 @@
 package com.ftn.eobrazovanje.domain.entity.user;
 
 
+import com.ftn.eobrazovanje.domain.entity.StudentAccount;
 import com.ftn.eobrazovanje.domain.entity.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,5 +22,8 @@ public class Student extends BaseEntity{
     private User user;
 
     private String studentId;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private StudentAccount studentAccount;
 
 }
