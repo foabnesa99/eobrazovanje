@@ -2,6 +2,7 @@ package com.ftn.eobrazovanje.domain.dto.user;
 
 import com.ftn.eobrazovanje.domain.entity.user.Professor;
 import com.ftn.eobrazovanje.domain.entity.user.Student;
+import com.ftn.eobrazovanje.domain.entity.user.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValueMappingStrategy;
 import org.mapstruct.ReportingPolicy;
@@ -16,4 +17,7 @@ public interface UserMapper {
 
     Student studentFromUserCreateRequest(UserCreateRequest userCreateRequest);
 
+    UserCreateRequest toUserCreateRequest(User user);
+
+    UserSimpleDto toUserSimpleDto(User user);
 }

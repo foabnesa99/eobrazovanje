@@ -19,7 +19,4 @@ public class Professor extends BaseEntity {
     @OneToOne(fetch = FetchType.EAGER, cascade = jakarta.persistence.CascadeType.ALL)
     private User user;
 
-    private ProfessorRole professorRole;
-
-
 }

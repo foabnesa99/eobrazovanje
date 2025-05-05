@@ -1,8 +1,8 @@
 package com.ftn.eobrazovanje.domain.entity.relational;
 
+import com.ftn.eobrazovanje.domain.common.ProfessorRole;
 import com.ftn.eobrazovanje.domain.entity.Subject;
 import com.ftn.eobrazovanje.domain.entity.user.Professor;
-import com.ftn.eobrazovanje.domain.entity.user.Student;
 import lombok.*;
 
 import jakarta.persistence.*;
@@ -31,9 +31,13 @@ public class SubjectProfessor {
     @MapsId("subjectId")
     private Subject subject;
 
-    public SubjectProfessor(Professor professor, Subject subject) {
+    @Enumerated(EnumType.STRING)
+    private ProfessorRole professorRole;
+
+    public SubjectProfessor(Professor professor, Subject subject, ProfessorRole professorRole) {
         this.professor = professor;
         this.subject = subject;
+        this.professorRole = professorRole;
         this.id = new SubjectProfessorId(subject.getId(), professor.getId());
     }
 
