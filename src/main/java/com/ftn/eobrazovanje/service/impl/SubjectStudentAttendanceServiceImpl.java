@@ -9,6 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
+import java.util.List;
+
 @Service
 @Transactional
 @Slf4j
@@ -18,8 +21,8 @@ public class SubjectStudentAttendanceServiceImpl implements SubjectStudentAttend
     private final SubjectStudentAttendanceRepository subjectStudentAttendanceRepository;
 
     @Override
-    public SubjectStudentAttendance findById(Long subjectId, Long studentId) {
-        return subjectStudentAttendanceRepository.findById(new SubjectStudentAttendance.SubjectStudentAttendanceId(subjectId, studentId)).orElseThrow(SubjectStudentAttendanceNotFoundException::new);
+    public SubjectStudentAttendance findById(Long id) {
+        return subjectStudentAttendanceRepository.findById(id).orElseThrow(SubjectStudentAttendanceNotFoundException::new);
     }
 
     @Override
@@ -33,7 +36,27 @@ public class SubjectStudentAttendanceServiceImpl implements SubjectStudentAttend
     }
 
     @Override
-    public void delete(Long subjectId, Long studentId) {
-        subjectStudentAttendanceRepository.deleteById(new SubjectStudentAttendance.SubjectStudentAttendanceId(subjectId, studentId));
+    public void delete(Long id) {
+        subjectStudentAttendanceRepository.deleteById(id);
+    }
+
+    @Override
+    public void saveAll(Collection<SubjectStudentAttendance> subjectStudentAttendances) {
+        subjectStudentAttendanceRepository.saveAll(subjectStudentAttendances);
+    }
+
+    @Override
+    public List<SubjectStudentAttendance> findAllBySubjectId(Long subjectId) {
+        return subjectStudentAttendanceRepository.findAllBySubject_Id(subjectId);
+    }
+
+    @Override
+    public List<SubjectStudentAttendance> findAllByStudentId(Long studentId) {
+        return subjectStudentAttendanceRepository.findAllByStudent_Id(studentId);
+    }
+
+    @Override
+    public SubjectStudentAttendance findByStudentIdAndSubjectId(Long studentId, Long subjectId) {
+        return subjectStudentAttendanceRepository.findByStudent_IdAndSubject_Id(studentId, subjectId);
     }
 }

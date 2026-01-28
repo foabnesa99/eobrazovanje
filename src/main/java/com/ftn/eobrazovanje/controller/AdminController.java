@@ -50,7 +50,7 @@ public class AdminController {
     @PostMapping(value = "/student/create", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> createStudentUser(@RequestBody UserCreateRequest createRequest) {
         createRequest.setRole(UserRole.STUDENT);
-        User user = userService.createUser(createRequest);
+        userService.createUser(createRequest);
         return new ResponseEntity<>(new User(), HttpStatus.CREATED);
     }
 

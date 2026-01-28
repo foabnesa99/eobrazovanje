@@ -22,4 +22,7 @@ public class ErrorCodes {
     public static final int STUDENT_ACCOUNT_TRANSACTION_NOT_FOUND = 10018;
     public static final int SUBJECT_PROFESSOR_ALREADY_EXISTS = 10019;
     public static final int STUDY_PROGRAM_NOT_FOUND = 10020;
+    public static final int STUDY_PROGRAM_STUDENT_NOT_FOUND = 10021;
+    public static final int SUBJECT_TEST_NOT_FOUND = 10022;
+
 }

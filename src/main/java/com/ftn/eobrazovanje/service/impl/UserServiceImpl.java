@@ -3,19 +3,18 @@ package com.ftn.eobrazovanje.service.impl;
 import com.ftn.eobrazovanje.dao.UserRepository;
 import com.ftn.eobrazovanje.domain.common.ProfessorRole;
 import com.ftn.eobrazovanje.domain.common.UserRole;
+import com.ftn.eobrazovanje.domain.dto.security.CustomUserDetails;
 import com.ftn.eobrazovanje.domain.dto.user.UserCreateRequest;
-import com.ftn.eobrazovanje.domain.dto.user.UserMapper;
 import com.ftn.eobrazovanje.domain.entity.StudentAccount;
 import com.ftn.eobrazovanje.domain.entity.user.Professor;
 import com.ftn.eobrazovanje.domain.entity.user.Student;
 import com.ftn.eobrazovanje.domain.entity.user.User;
 import com.ftn.eobrazovanje.exception.UserNotFoundException;
-import com.ftn.eobrazovanje.service.ProfessorService;
-import com.ftn.eobrazovanje.service.StudentAccountService;
-import com.ftn.eobrazovanje.service.StudentService;
-import com.ftn.eobrazovanje.service.UserService;
+import com.ftn.eobrazovanje.service.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +30,7 @@ public class UserServiceImpl implements UserService {
 
     private final StudentService studentService;
     private final ProfessorService professorService;
+    private final StudyProgramService studyProgramService;
     private final UserRepository userRepository;
     private final StudentAccountService studentAccountService;
     private final PasswordEncoder passwordEncoder;
@@ -55,6 +55,7 @@ public class UserServiceImpl implements UserService {
             studentAccount.setBalance(0L);
             studentService.create(student);
             studentAccountService.create(studentAccount);
+            studyProgramService.addStudentToStudyProgram(userCreateRequest.getStudyProgramId(), student);
         }
         else{
             createProfessor(user, userCreateRequest.getProfessorRole());
@@ -87,5 +88,11 @@ public class UserServiceImpl implements UserService {
         Professor professor = new Professor(user);
         professorService.create(professor);
 
+    }
+
+    @Override
+    public User fetchCurrentUser(){
+        CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return getByEmail(customUserDetails.getUsername());
     }
 }

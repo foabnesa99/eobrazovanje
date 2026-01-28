@@ -23,5 +23,7 @@ public interface SubjectService {
 
     List<Subject> getAll();
 
+    List<Subject> getAllForStudyProgram(StudyProgram studyProgram);
+
     void addSubjectToProgram(StudyProgram studyProgram, StudyProgramSubjectCreateRequest createRequest);
 }

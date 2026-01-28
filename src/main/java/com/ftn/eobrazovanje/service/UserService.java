@@ -16,4 +16,6 @@ public interface UserService{
     List<User> findAll();
 
     List<User> findAllProfessors();
+
+    User fetchCurrentUser();
 }

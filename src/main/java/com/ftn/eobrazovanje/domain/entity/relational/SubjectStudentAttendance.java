@@ -1,6 +1,7 @@
 package com.ftn.eobrazovanje.domain.entity.relational;
 
 import com.ftn.eobrazovanje.domain.entity.Subject;
+import com.ftn.eobrazovanje.domain.entity.base.BaseEntity;
 import com.ftn.eobrazovanje.domain.entity.user.Student;
 import lombok.*;
 
@@ -17,19 +18,14 @@ import java.util.List;
 
 @Entity
 @Table
-public class SubjectStudentAttendance {
-
-    @EmbeddedId
-    protected SubjectStudentAttendanceId id;
+public class SubjectStudentAttendance extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "student_id")
-    @MapsId("studentId")
     private Student student;
 
     @ManyToOne
     @JoinColumn(name = "subject_id")
-    @MapsId("subjectId")
     private Subject subject;
 
     private int finalGrade;
@@ -38,24 +34,6 @@ public class SubjectStudentAttendance {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subjectStudentAttendance")
     private List<SubjectStudentTest> subjectStudentTests = new ArrayList<>();
-
-    public SubjectStudentAttendance(Student student, Subject subject) {
-        this.student = student;
-        this.subject = subject;
-        this.id = new SubjectStudentAttendanceId(subject.getId(), student.getId());
-    }
-
-    @Embeddable
-    @EqualsAndHashCode
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Data
-    public static class SubjectStudentAttendanceId implements Serializable {
-
-        private Long subjectId;
-        private Long studentId;
-
-    }
 
 
 }

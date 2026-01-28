@@ -1,16 +1,8 @@
 package com.ftn.eobrazovanje.domain.entity.relational;
 
 import com.ftn.eobrazovanje.domain.entity.base.BaseEntity;
-import jakarta.persistence.FetchType;
+import jakarta.persistence.*;
 import lombok.*;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-
-import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -26,13 +18,17 @@ public class SubjectStudentTest extends BaseEntity {
     @JoinColumn(name = "subject_student_attendance_id")
     private SubjectStudentAttendance subjectStudentAttendance;
 
+    @ManyToOne
+    @JoinColumn(name = "subject_test_id")
+    private SubjectTest subjectTest;
+
     private int grade;
 
+    private int points;
+
+    private boolean passed;
+
     private boolean attended;
-
-    private LocalDateTime dateTime;
-
-
 
 
 }

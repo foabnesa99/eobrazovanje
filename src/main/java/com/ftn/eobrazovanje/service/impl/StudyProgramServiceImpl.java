@@ -1,10 +1,14 @@
 package com.ftn.eobrazovanje.service.impl;
 
 import com.ftn.eobrazovanje.dao.StudyProgramRepository;
+import com.ftn.eobrazovanje.dao.StudyProgramStudentRepository;
 import com.ftn.eobrazovanje.domain.dto.studyProgram.StudyProgramCreateRequest;
 import com.ftn.eobrazovanje.domain.entity.StudyProgram;
+import com.ftn.eobrazovanje.domain.entity.relational.StudyProgramStudent;
+import com.ftn.eobrazovanje.domain.entity.user.Student;
 import com.ftn.eobrazovanje.exception.StudyProgramNotFound;
 import com.ftn.eobrazovanje.service.StudyProgramService;
+import com.ftn.eobrazovanje.service.StudyProgramStudentService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,6 +23,7 @@ import java.util.List;
 public class StudyProgramServiceImpl implements StudyProgramService {
 
     private final StudyProgramRepository studyProgramRepository;
+    private final StudyProgramStudentService studyProgramStudentService;
 
     @Override
     public StudyProgram create(StudyProgram studyProgram) {
@@ -28,6 +33,12 @@ public class StudyProgramServiceImpl implements StudyProgramService {
     @Override
     public StudyProgram findById(Long id) {
         return studyProgramRepository.findById(id).orElseThrow(StudyProgramNotFound::new);
+    }
+
+    @Override
+    public void addStudentToStudyProgram(Long studyProgramId, Student student) {
+        StudyProgram studyProgram = findById(studyProgramId);
+        studyProgramStudentService.addStudentToProgram(new StudyProgramStudent(student, studyProgram));
     }
 
     @Override

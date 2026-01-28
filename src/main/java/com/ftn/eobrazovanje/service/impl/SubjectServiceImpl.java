@@ -56,6 +56,11 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public List<Subject> getAllForStudyProgram(StudyProgram studyProgram) {
+        return subjectRepository.findAllByStudyProgram(studyProgram);
+    }
+
+    @Override
     public void addSubjectToProgram(StudyProgram studyProgram, StudyProgramSubjectCreateRequest createRequest) {
         Subject subject = getById(createRequest.getSubjectId());
         subject.setStudyProgram(studyProgram);

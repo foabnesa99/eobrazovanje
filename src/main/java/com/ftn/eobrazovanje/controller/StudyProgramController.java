@@ -1,9 +1,11 @@
 package com.ftn.eobrazovanje.controller;
 
+import com.ftn.eobrazovanje.domain.dto.security.CustomUserDetails;
 import com.ftn.eobrazovanje.domain.dto.studyProgram.StudyProgramCreateRequest;
 import com.ftn.eobrazovanje.domain.dto.studyProgram.StudyProgramDto;
 import com.ftn.eobrazovanje.domain.dto.subject.SubjectDto;
 import com.ftn.eobrazovanje.domain.dto.user.UserCreateRequest;
+import com.ftn.eobrazovanje.domain.entity.user.User;
 import com.ftn.eobrazovanje.service.StudyProgramService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -14,6 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,7 +41,7 @@ public class StudyProgramController {
     })
     @CrossOrigin(origins = "*")
     @GetMapping()
-    public ResponseEntity<List<StudyProgramDto>> getUsers() {
+    public ResponseEntity<List<StudyProgramDto>> getStudyPrograms() {
         List<StudyProgramDto> studyProgramDtos = studyProgramService.findAll().stream().map(sub ->
                 new StudyProgramDto(sub.getId(), sub.getName(), sub.getDescription(), sub.getCode())).toList();
         return new ResponseEntity<>(studyProgramDtos, HttpStatus.OK);

@@ -1,8 +1,10 @@
 package com.ftn.eobrazovanje.service;
 
 import com.ftn.eobrazovanje.domain.dto.subjectProfessor.SubjectProfessorCreateRequest;
+import com.ftn.eobrazovanje.domain.dto.subjectProfessor.SubjectProfessorSimpleDto;
 import com.ftn.eobrazovanje.domain.entity.relational.SubjectProfessor;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface SubjectProfessorService {
@@ -19,4 +21,6 @@ public interface SubjectProfessorService {
 
 
     void assignProfessorToSubject(SubjectProfessorCreateRequest createRequest);
+
+    List<SubjectProfessorSimpleDto> getSubjectProfessorSimpleDtosForProfessor();
 }

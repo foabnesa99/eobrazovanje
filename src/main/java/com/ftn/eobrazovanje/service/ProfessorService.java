@@ -1,5 +1,6 @@
 package com.ftn.eobrazovanje.service;
 
+import com.ftn.eobrazovanje.domain.dto.professor.ProfessorTestCreateRequest;
 import com.ftn.eobrazovanje.domain.entity.user.Professor;
 
 public interface ProfessorService {
@@ -15,4 +16,5 @@ public interface ProfessorService {
     void delete(Long id);
 
 
+    void createTest(ProfessorTestCreateRequest professorTestCreateRequest);
 }

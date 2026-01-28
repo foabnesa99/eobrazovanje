@@ -1,21 +1,24 @@
 package com.ftn.eobrazovanje.service.impl;
 
 import com.ftn.eobrazovanje.dao.SubjectProfessorRepository;
-import com.ftn.eobrazovanje.domain.common.ProfessorRole;
 import com.ftn.eobrazovanje.domain.dto.subjectProfessor.SubjectProfessorCreateRequest;
+import com.ftn.eobrazovanje.domain.dto.subjectProfessor.SubjectProfessorSimpleDto;
 import com.ftn.eobrazovanje.domain.entity.Subject;
 import com.ftn.eobrazovanje.domain.entity.relational.SubjectProfessor;
 import com.ftn.eobrazovanje.domain.entity.user.Professor;
+import com.ftn.eobrazovanje.domain.entity.user.User;
 import com.ftn.eobrazovanje.exception.SubjectProfessorExistsException;
 import com.ftn.eobrazovanje.exception.SubjectProfessorNotFoundException;
 import com.ftn.eobrazovanje.service.ProfessorService;
 import com.ftn.eobrazovanje.service.SubjectProfessorService;
 import com.ftn.eobrazovanje.service.SubjectService;
+import com.ftn.eobrazovanje.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,7 +30,7 @@ public class SubjectProfessorServiceImpl implements SubjectProfessorService {
     private final SubjectProfessorRepository subjectProfessorRepository;
     private final SubjectService subjectService;
     private final ProfessorService professorService;
-
+    private final UserService userService;
     @Override
     public SubjectProfessor create(SubjectProfessor subjectProfessor) {
         return subjectProfessorRepository.save(subjectProfessor);
@@ -63,4 +66,12 @@ public class SubjectProfessorServiceImpl implements SubjectProfessorService {
         create(new SubjectProfessor(professor, subject, createRequest.getProfessorRole()));
 
     }
+
+    @Override
+    public List<SubjectProfessorSimpleDto> getSubjectProfessorSimpleDtosForProfessor(){
+        User user = userService.fetchCurrentUser();
+        return subjectProfessorRepository.getSubjectProfessorSimpleDtosByUserId(user.getId());
+    }
+
+
 }

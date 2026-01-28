@@ -28,6 +28,8 @@ public class UserCreateRequest {
 
     private UserRole role = UserRole.STUDENT;
 
+    private Long studyProgramId;
+
     private ProfessorRole professorRole;
 
 }
