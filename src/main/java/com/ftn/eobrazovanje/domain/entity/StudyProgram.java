@@ -4,6 +4,8 @@ import com.ftn.eobrazovanje.domain.entity.base.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 @Getter
 @Setter
@@ -13,6 +15,8 @@ import lombok.*;
 
 @Entity
 @Table
+@SQLDelete(sql = "UPDATE study_program SET deleted = true WHERE id = ?")
+@SQLRestriction("deleted = false")
 public class StudyProgram extends BaseEntity {
 
     private String name;

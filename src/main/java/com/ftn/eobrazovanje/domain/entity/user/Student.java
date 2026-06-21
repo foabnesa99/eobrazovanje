@@ -6,6 +6,7 @@ import com.ftn.eobrazovanje.domain.entity.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 import org.springframework.stereotype.Indexed;
 
 @Getter
@@ -16,6 +17,8 @@ import org.springframework.stereotype.Indexed;
 @Indexed
 @Entity(name = "student")
 @Table
+@SQLDelete(sql = "UPDATE student SET deleted = true WHERE id = ?")
+@SQLRestriction("deleted = false")
 public class Student extends BaseEntity{
 
     @OneToOne(fetch = FetchType.EAGER, cascade = jakarta.persistence.CascadeType.ALL)

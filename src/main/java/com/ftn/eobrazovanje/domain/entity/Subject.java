@@ -5,6 +5,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 import org.springframework.stereotype.Indexed;
 
 import jakarta.persistence.Entity;
@@ -21,6 +22,7 @@ import jakarta.persistence.Table;
 @Table
 @Entity
 @SQLDelete(sql = "UPDATE subject SET deleted = true WHERE id = ? and `version` = ?")
+@SQLRestriction("deleted = false")
 public class Subject extends BaseEntity {
 
     private String title;
