@@ -144,7 +144,7 @@ public class AdminController {
     @CrossOrigin(origins = "*")
     @DeleteMapping(value = "/student/{id}")
     public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
-        studentService.delete(id);
+        userService.deleteStudent(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

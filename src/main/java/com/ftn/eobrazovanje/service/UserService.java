@@ -23,4 +23,6 @@ public interface UserService{
     void updateStudent(Long studentId, StudentUpdateRequest request);
 
     void updateProfessor(Long professorId, ProfessorUpdateRequest request);
+
+    void deleteStudent(Long studentId);
 }

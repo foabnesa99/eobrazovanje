@@ -96,4 +96,12 @@ public class StudyProgramServiceImpl implements StudyProgramService {
         }
         addStudentToStudyProgram(studyProgramId, student);
     }
+
+    @Override
+    public void removeStudentAssociation(Student student) {
+        StudyProgramStudent existing = studyProgramStudentService.getStudyProgramByStudent(student);
+        if (existing != null) {
+            studyProgramStudentService.delete(existing.getStudyProgram().getId(), student.getId());
+        }
+    }
 }

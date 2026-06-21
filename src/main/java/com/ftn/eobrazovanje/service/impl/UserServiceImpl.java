@@ -124,4 +124,11 @@ public class UserServiceImpl implements UserService {
         user.setPhone(request.getPhone());
         professorService.update(professor);
     }
+
+    @Override
+    public void deleteStudent(Long studentId) {
+        Student student = studentService.findById(studentId);
+        studyProgramService.removeStudentAssociation(student);
+        studentService.delete(studentId);
+    }
 }

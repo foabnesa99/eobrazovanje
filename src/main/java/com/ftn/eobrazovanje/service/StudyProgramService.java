@@ -29,4 +29,6 @@ public interface StudyProgramService {
     void addSubjectToProgram(StudyProgramSubjectCreateRequest createRequest);
 
     void updateStudentProgram(Long studyProgramId, Student student);
+
+    void removeStudentAssociation(Student student);
 }
