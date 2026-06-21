@@ -52,6 +52,7 @@ public class UserServiceImpl implements UserService {
         user.setRegistrationDate(LocalDate.now());
         user.setPhone(userCreateRequest.getPhone());
         user.setPassword(passwordEncoder.encode("password"));
+        user.setActive(true);
 
         if(userCreateRequest.getRole().equals(UserRole.STUDENT)){
             user.setRole(UserRole.STUDENT);
