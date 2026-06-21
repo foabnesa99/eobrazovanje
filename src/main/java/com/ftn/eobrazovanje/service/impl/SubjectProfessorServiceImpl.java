@@ -2,9 +2,12 @@ package com.ftn.eobrazovanje.service.impl;
 
 import com.ftn.eobrazovanje.dao.SubjectProfessorRepository;
 import com.ftn.eobrazovanje.domain.dto.subjectProfessor.SubjectProfessorCreateRequest;
+import com.ftn.eobrazovanje.domain.dto.subjectProfessor.SubjectProfessorPairingDto;
 import com.ftn.eobrazovanje.domain.dto.subjectProfessor.SubjectProfessorSimpleDto;
+import com.ftn.eobrazovanje.domain.dto.tests.StudentTestSimpleDto;
 import com.ftn.eobrazovanje.domain.entity.Subject;
 import com.ftn.eobrazovanje.domain.entity.relational.SubjectProfessor;
+import com.ftn.eobrazovanje.domain.entity.relational.SubjectTest;
 import com.ftn.eobrazovanje.domain.entity.user.Professor;
 import com.ftn.eobrazovanje.domain.entity.user.User;
 import com.ftn.eobrazovanje.exception.SubjectProfessorExistsException;
@@ -12,6 +15,7 @@ import com.ftn.eobrazovanje.exception.SubjectProfessorNotFoundException;
 import com.ftn.eobrazovanje.service.ProfessorService;
 import com.ftn.eobrazovanje.service.SubjectProfessorService;
 import com.ftn.eobrazovanje.service.SubjectService;
+import com.ftn.eobrazovanje.service.SubjectTestService;
 import com.ftn.eobrazovanje.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +35,7 @@ public class SubjectProfessorServiceImpl implements SubjectProfessorService {
     private final SubjectService subjectService;
     private final ProfessorService professorService;
     private final UserService userService;
+    private final SubjectTestService subjectTestService;
     @Override
     public SubjectProfessor create(SubjectProfessor subjectProfessor) {
         return subjectProfessorRepository.save(subjectProfessor);
@@ -73,5 +78,25 @@ public class SubjectProfessorServiceImpl implements SubjectProfessorService {
         return subjectProfessorRepository.getSubjectProfessorSimpleDtosByUserId(user.getId());
     }
 
+    @Override
+    public List<StudentTestSimpleDto> findTestsForCurrentProfessor() {
+        List<Long> subjectIds = getSubjectProfessorSimpleDtosForProfessor().stream()
+                .map(SubjectProfessorSimpleDto::getId)
+                .toList();
+        return subjectTestService.findAllBySubjectIds(subjectIds).stream()
+                .map(test -> new StudentTestSimpleDto(test.getId(), test.getTitle(), test.getDateTime()))
+                .toList();
+    }
 
+    @Override
+    public List<SubjectProfessorPairingDto> findAllPairings() {
+        return subjectProfessorRepository.findAll().stream()
+                .map(subjectProfessor -> new SubjectProfessorPairingDto(
+                        subjectProfessor.getSubject().getId(),
+                        subjectProfessor.getProfessor().getId(),
+                        subjectProfessor.getSubject().getTitle(),
+                        subjectProfessor.getProfessor().getUser().getFullName(),
+                        subjectProfessor.getProfessorRole()))
+                .toList();
+    }
 }

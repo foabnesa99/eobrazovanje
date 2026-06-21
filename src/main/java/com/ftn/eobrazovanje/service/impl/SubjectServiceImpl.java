@@ -2,7 +2,9 @@ package com.ftn.eobrazovanje.service.impl;
 
 import com.ftn.eobrazovanje.dao.SubjectRepository;
 import com.ftn.eobrazovanje.domain.dto.studyProgramSubject.StudyProgramSubjectCreateRequest;
+import com.ftn.eobrazovanje.domain.dto.studyProgramSubject.StudyProgramSubjectPairingDto;
 import com.ftn.eobrazovanje.domain.dto.subject.SubjectCreateRequest;
+import com.ftn.eobrazovanje.domain.dto.subject.SubjectDto;
 import com.ftn.eobrazovanje.domain.entity.StudyProgram;
 import com.ftn.eobrazovanje.domain.entity.Subject;
 import com.ftn.eobrazovanje.exception.SubjectNotFoundException;
@@ -48,6 +50,25 @@ public class SubjectServiceImpl implements SubjectService {
     public void createSubject(SubjectCreateRequest createRequest){
         Subject subject = new Subject(createRequest.getTitle(), createRequest.getDescription());
         create(subject);
+    }
+
+    @Override
+    public List<SubjectDto> findAllDtos() {
+        return subjectRepository.findAll().stream()
+                .map(subject -> new SubjectDto(subject.getId(), subject.getTitle(), subject.getDescription()))
+                .toList();
+    }
+
+    @Override
+    public List<StudyProgramSubjectPairingDto> findAllProgramPairings() {
+        return subjectRepository.findAll().stream()
+                .filter(subject -> subject.getStudyProgram() != null)
+                .map(subject -> new StudyProgramSubjectPairingDto(
+                        subject.getId(),
+                        subject.getTitle(),
+                        subject.getStudyProgram().getCode(),
+                        subject.getStudyProgram().getName()))
+                .toList();
     }
 
     @Override
