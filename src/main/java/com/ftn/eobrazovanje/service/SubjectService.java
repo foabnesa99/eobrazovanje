@@ -2,6 +2,7 @@ package com.ftn.eobrazovanje.service;
 
 
 import com.ftn.eobrazovanje.domain.dto.studyProgramSubject.StudyProgramSubjectCreateRequest;
+import com.ftn.eobrazovanje.domain.dto.studyProgramSubject.StudyProgramSubjectPairingDto;
 import com.ftn.eobrazovanje.domain.dto.subject.SubjectCreateRequest;
 import com.ftn.eobrazovanje.domain.dto.subject.SubjectDto;
 import com.ftn.eobrazovanje.domain.entity.StudyProgram;
@@ -21,9 +22,15 @@ public interface SubjectService {
 
     void createSubject(SubjectCreateRequest createRequest);
 
+    List<SubjectDto> findAllDtos();
+
+    List<StudyProgramSubjectPairingDto> findAllProgramPairings();
+
     List<Subject> getAll();
 
     List<Subject> getAllForStudyProgram(StudyProgram studyProgram);
 
     void addSubjectToProgram(StudyProgram studyProgram, StudyProgramSubjectCreateRequest createRequest);
+
+    void removeSubjectFromProgram(Long subjectId);
 }

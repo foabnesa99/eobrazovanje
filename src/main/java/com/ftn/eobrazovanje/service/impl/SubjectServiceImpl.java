@@ -87,4 +87,11 @@ public class SubjectServiceImpl implements SubjectService {
         subject.setStudyProgram(studyProgram);
         update(subject);
     }
+
+    @Override
+    public void removeSubjectFromProgram(Long subjectId) {
+        Subject subject = getById(subjectId);
+        subject.setStudyProgram(null);
+        update(subject);
+    }
 }
