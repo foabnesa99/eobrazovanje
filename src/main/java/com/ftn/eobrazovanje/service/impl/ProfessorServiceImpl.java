@@ -20,9 +20,6 @@ public class ProfessorServiceImpl implements ProfessorService {
 
     private final ProfessorRepository professorRepository;
     private final SubjectService subjectService;
-    private final StudentService studentService;
-    private final SubjectStudentTestService subjectStudentTestService;
-    private final SubjectStudentAttendanceService subjectStudentAttendanceService;
     private final SubjectTestService subjectTestService;
 
     @Override

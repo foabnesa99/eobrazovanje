@@ -1,6 +1,5 @@
 package com.ftn.eobrazovanje.domain.entity.user;
 
-import com.ftn.eobrazovanje.domain.common.ProfessorRole;
 import com.ftn.eobrazovanje.domain.entity.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;

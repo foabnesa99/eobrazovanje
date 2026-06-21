@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import static com.ftn.eobrazovanje.exception.ErrorCodes.STUDY_PROGRAM_STUDENT_NOT_FOUND;
-import static com.ftn.eobrazovanje.exception.ErrorCodes.SUBJECT_NOT_FOUND;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class StudyProgramStudentNotFound extends ServiceException{
