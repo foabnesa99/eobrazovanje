@@ -1,7 +1,10 @@
 package com.ftn.eobrazovanje.service;
 
+import com.ftn.eobrazovanje.domain.dto.professor.ProfessorDto;
 import com.ftn.eobrazovanje.domain.dto.professor.ProfessorTestCreateRequest;
 import com.ftn.eobrazovanje.domain.entity.user.Professor;
+
+import java.util.List;
 
 public interface ProfessorService {
 
@@ -15,6 +18,7 @@ public interface ProfessorService {
 
     void delete(Long id);
 
-
     void createTest(ProfessorTestCreateRequest professorTestCreateRequest);
+
+    List<ProfessorDto> findAllDtos();
 }

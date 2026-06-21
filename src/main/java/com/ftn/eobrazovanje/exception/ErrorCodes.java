@@ -24,5 +24,6 @@ public class ErrorCodes {
     public static final int STUDY_PROGRAM_NOT_FOUND = 10020;
     public static final int STUDY_PROGRAM_STUDENT_NOT_FOUND = 10021;
     public static final int SUBJECT_TEST_NOT_FOUND = 10022;
+    public static final int STUDENT_DOCUMENT_NOT_FOUND = 10023;
 
 }

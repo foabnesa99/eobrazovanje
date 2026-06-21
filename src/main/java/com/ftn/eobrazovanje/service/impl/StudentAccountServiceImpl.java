@@ -37,4 +37,9 @@ public class StudentAccountServiceImpl implements StudentAccountService {
     public void delete(Long id) {
         studentAccountRepository.deleteById(id);
     }
+
+    @Override
+    public StudentAccount findByStudentId(Long studentId) {
+        return studentAccountRepository.findByStudent_Id(studentId);
+    }
 }

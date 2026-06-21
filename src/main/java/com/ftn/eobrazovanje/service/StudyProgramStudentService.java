@@ -1,7 +1,10 @@
 package com.ftn.eobrazovanje.service;
 
+import com.ftn.eobrazovanje.domain.dto.subject.SubjectDto;
 import com.ftn.eobrazovanje.domain.entity.relational.StudyProgramStudent;
 import com.ftn.eobrazovanje.domain.entity.user.Student;
+
+import java.util.List;
 
 public interface StudyProgramStudentService {
 
@@ -16,4 +19,6 @@ public interface StudyProgramStudentService {
     StudyProgramStudent getStudyProgramByStudent(Student student);
 
     void addStudentToProgram(StudyProgramStudent studyProgramStudent);
+
+    List<SubjectDto> getSubjectDtosForCurrentStudent();
 }

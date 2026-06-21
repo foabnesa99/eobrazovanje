@@ -1,13 +1,8 @@
 package com.ftn.eobrazovanje.controller;
 
 import com.ftn.eobrazovanje.domain.dto.subject.SubjectDto;
-import com.ftn.eobrazovanje.domain.entity.StudyProgram;
-import com.ftn.eobrazovanje.domain.entity.relational.StudyProgramStudent;
-import com.ftn.eobrazovanje.domain.entity.user.Student;
-import com.ftn.eobrazovanje.domain.entity.user.User;
-import com.ftn.eobrazovanje.service.*;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import com.ftn.eobrazovanje.service.StudyProgramStudentService;
+import com.ftn.eobrazovanje.service.SubjectService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,37 +23,18 @@ import java.util.List;
 public class SubjectController {
 
     private final SubjectService subjectService;
-    private final StudentService studentService;
-    private final UserService userService;
-    private final StudyProgramService studyProgramService;
     private final StudyProgramStudentService studyProgramStudentService;
 
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "User successfully created"),
-            @ApiResponse(responseCode = "400", description = "Invalid input"),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error"),
-    })
     @CrossOrigin(origins = "*")
     @GetMapping()
     public ResponseEntity<List<SubjectDto>> getSubjects() {
-        List<SubjectDto> subjectDtoList = subjectService.getAll().stream().map(sub -> new SubjectDto(sub.getId(), sub.getTitle(), sub.getDescription())).toList();
-        return new ResponseEntity<>(subjectDtoList, HttpStatus.OK);
+        return new ResponseEntity<>(subjectService.findAllDtos(), HttpStatus.OK);
     }
 
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "User successfully created"),
-            @ApiResponse(responseCode = "400", description = "Invalid input"),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error"),
-    })
     @CrossOrigin(origins = "*")
     @GetMapping("/student")
     public ResponseEntity<List<SubjectDto>> getSubjectsForCurrentStudent() {
-        User user = userService.fetchCurrentUser();
-        Student student = studentService.findByEmail(user.getEmail());
-        StudyProgramStudent studyProgramStudent = studyProgramStudentService.getStudyProgramByStudent(student);
-        StudyProgram studyProgram = studyProgramStudent.getStudyProgram();
-        List<SubjectDto> subjectDtoList = subjectService.getAllForStudyProgram(studyProgram).stream().map(sub -> new SubjectDto(sub.getId(), sub.getTitle(), sub.getDescription())).toList();
-        return new ResponseEntity<>(subjectDtoList, HttpStatus.OK);
+        return new ResponseEntity<>(studyProgramStudentService.getSubjectDtosForCurrentStudent(), HttpStatus.OK);
     }
 
 }

@@ -1,7 +1,9 @@
 package com.ftn.eobrazovanje.service;
 
 import com.ftn.eobrazovanje.domain.dto.subjectProfessor.SubjectProfessorCreateRequest;
+import com.ftn.eobrazovanje.domain.dto.subjectProfessor.SubjectProfessorPairingDto;
 import com.ftn.eobrazovanje.domain.dto.subjectProfessor.SubjectProfessorSimpleDto;
+import com.ftn.eobrazovanje.domain.dto.tests.StudentTestSimpleDto;
 import com.ftn.eobrazovanje.domain.entity.relational.SubjectProfessor;
 
 import java.util.List;
@@ -23,4 +25,8 @@ public interface SubjectProfessorService {
     void assignProfessorToSubject(SubjectProfessorCreateRequest createRequest);
 
     List<SubjectProfessorSimpleDto> getSubjectProfessorSimpleDtosForProfessor();
+
+    List<StudentTestSimpleDto> findTestsForCurrentProfessor();
+
+    List<SubjectProfessorPairingDto> findAllPairings();
 }

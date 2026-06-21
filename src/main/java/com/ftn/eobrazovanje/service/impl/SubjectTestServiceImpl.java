@@ -2,11 +2,10 @@ package com.ftn.eobrazovanje.service.impl;
 
 import com.ftn.eobrazovanje.dao.SubjectTestRepository;
 import com.ftn.eobrazovanje.domain.dto.tests.StudentTestSimpleDto;
-import com.ftn.eobrazovanje.domain.entity.relational.SubjectStudentAttendance;
 import com.ftn.eobrazovanje.domain.entity.relational.SubjectTest;
 import com.ftn.eobrazovanje.domain.entity.user.Student;
 import com.ftn.eobrazovanje.exception.SubjectTestNotFoundException;
-import com.ftn.eobrazovanje.service.SubjectStudentAttendanceService;
+import com.ftn.eobrazovanje.service.StudentService;
 import com.ftn.eobrazovanje.service.SubjectTestService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,7 +22,7 @@ import java.util.List;
 public class SubjectTestServiceImpl implements SubjectTestService {
 
     private final SubjectTestRepository subjectTestRepository;
-    private final SubjectStudentAttendanceService subjectStudentAttendanceService;
+    private final StudentService studentService;
 
     @Override
     public SubjectTest create(SubjectTest subjectTest) {
@@ -47,7 +45,13 @@ public class SubjectTestServiceImpl implements SubjectTestService {
     }
 
     @Override
-    public List<StudentTestSimpleDto> getAvailableTestsForStudent(Student student) {
+    public List<StudentTestSimpleDto> getAvailableTestsForCurrentStudent() {
+        Student student = studentService.getCurrentStudent();
         return subjectTestRepository.findAllStudentTestSimpleDtosByStudentId(student.getId(), LocalDateTime.now().plusDays(1));
+    }
+
+    @Override
+    public List<SubjectTest> findAllBySubjectIds(List<Long> subjectIds) {
+        return subjectTestRepository.findAllBySubject_IdIn(subjectIds);
     }
 }

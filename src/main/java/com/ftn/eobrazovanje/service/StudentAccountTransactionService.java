@@ -1,16 +1,14 @@
 package com.ftn.eobrazovanje.service;
 
-import com.ftn.eobrazovanje.domain.entity.StudentAccountTransaction;
+import com.ftn.eobrazovanje.domain.dto.transaction.StudentTransactionCreateRequest;
+import com.ftn.eobrazovanje.domain.dto.transaction.StudentTransactionDto;
+
+import java.util.List;
 
 public interface StudentAccountTransactionService {
 
-    StudentAccountTransaction create(StudentAccountTransaction studentAccountTransaction);
+    void createPayment(StudentTransactionCreateRequest createRequest);
 
-    StudentAccountTransaction findById(Long id);
-
-    StudentAccountTransaction update(StudentAccountTransaction studentAccountTransaction);
-
-    void delete(Long id);
-
+    List<StudentTransactionDto> findDtosForCurrentStudent();
 
 }

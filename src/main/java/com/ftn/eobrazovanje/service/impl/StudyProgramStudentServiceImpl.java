@@ -1,11 +1,14 @@
 package com.ftn.eobrazovanje.service.impl;
 
 import com.ftn.eobrazovanje.dao.StudyProgramStudentRepository;
+import com.ftn.eobrazovanje.domain.dto.subject.SubjectDto;
+import com.ftn.eobrazovanje.domain.entity.StudyProgram;
 import com.ftn.eobrazovanje.domain.entity.Subject;
 import com.ftn.eobrazovanje.domain.entity.relational.StudyProgramStudent;
 import com.ftn.eobrazovanje.domain.entity.relational.SubjectStudentAttendance;
 import com.ftn.eobrazovanje.domain.entity.user.Student;
 import com.ftn.eobrazovanje.exception.StudyProgramStudentNotFound;
+import com.ftn.eobrazovanje.service.StudentService;
 import com.ftn.eobrazovanje.service.StudyProgramStudentService;
 import com.ftn.eobrazovanje.service.SubjectService;
 import com.ftn.eobrazovanje.service.SubjectStudentAttendanceService;
@@ -26,6 +29,7 @@ public class StudyProgramStudentServiceImpl implements StudyProgramStudentServic
     private final SubjectService subjectService;
     private final StudyProgramStudentRepository studyProgramStudentRepository;
     private final SubjectStudentAttendanceService subjectStudentAttendanceService;
+    private final StudentService studentService;
     @Override
     public StudyProgramStudent create(StudyProgramStudent studyProgramStudent) {
         return studyProgramStudentRepository.save(studyProgramStudent);
@@ -63,5 +67,14 @@ public class StudyProgramStudentServiceImpl implements StudyProgramStudentServic
             subjectStudentAttendances.add(subjectStudentAttendance);
         });
         subjectStudentAttendanceService.saveAll(subjectStudentAttendances);
+    }
+
+    @Override
+    public List<SubjectDto> getSubjectDtosForCurrentStudent() {
+        Student student = studentService.getCurrentStudent();
+        StudyProgram studyProgram = getStudyProgramByStudent(student).getStudyProgram();
+        return subjectService.getAllForStudyProgram(studyProgram).stream()
+                .map(subject -> new SubjectDto(subject.getId(), subject.getTitle(), subject.getDescription()))
+                .toList();
     }
 }

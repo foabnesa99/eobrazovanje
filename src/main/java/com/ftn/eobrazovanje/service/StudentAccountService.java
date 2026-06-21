@@ -12,4 +12,6 @@ public interface StudentAccountService {
 
     void delete(Long id);
 
+    StudentAccount findByStudentId(Long studentId);
+
 }

@@ -57,10 +57,8 @@ public class AuthenticationService {
 
     public void activateAccount(String token) throws MessagingException {
         Token savedToken = tokenRepository.findByToken(token)
-                // todo exception has to be defined
                 .orElseThrow(() -> new RuntimeException("Invalid token"));
         if (LocalDateTime.now().isAfter(savedToken.getExpiryDateTime())) {
-//            sendValidationEmail(savedToken.getUser());
             throw new RuntimeException("Activation token has expired. A new token has been send to the same email address");
         }
         User user = userService.getByEmail(savedToken.getUser().getEmail());
@@ -72,7 +70,6 @@ public class AuthenticationService {
     }
 
     private String generateAndSaveActivationToken(User user) {
-        // Generate a token
         String generatedToken = generateActivationCode(6);
         var token = Token.builder()
                 .token(generatedToken)
@@ -84,19 +81,6 @@ public class AuthenticationService {
 
         return generatedToken;
     }
-
-//    private void sendValidationEmail(User user) throws MessagingException {
-//        var newToken = generateAndSaveActivationToken(user);
-//
-//        emailService.sendEmail(
-//                user.getEmail(),
-//                user.getFullName(),
-//                EmailTemplateName.ACTIVATE_ACCOUNT,
-//                activationUrl,
-//                newToken,
-//                "Account activation"
-//        );
-//    }
 
     private String generateActivationCode(int length) {
         String characters = "0123456789";

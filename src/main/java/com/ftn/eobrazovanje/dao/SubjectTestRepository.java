@@ -20,7 +20,14 @@ public interface SubjectTestRepository extends JpaRepository<SubjectTest, Long> 
     inner join SubjectStudentAttendance ssa on ssa.subject.id = s.id
     where ssa.student.id = :studentId
     and st.dateTime > :dateTime
+    and not exists (
+        select 1 from SubjectStudentTest sst
+        where sst.subjectTest.id = st.id
+        and sst.subjectStudentAttendance.id = ssa.id
+    )
 """)
     List<StudentTestSimpleDto> findAllStudentTestSimpleDtosByStudentId(Long studentId, LocalDateTime dateTime);
+
+    List<SubjectTest> findAllBySubject_IdIn(List<Long> subjectIds);
 
 }

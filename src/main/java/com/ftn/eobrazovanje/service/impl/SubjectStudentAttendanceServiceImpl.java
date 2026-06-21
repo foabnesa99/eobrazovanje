@@ -1,8 +1,11 @@
 package com.ftn.eobrazovanje.service.impl;
 
 import com.ftn.eobrazovanje.dao.SubjectStudentAttendanceRepository;
+import com.ftn.eobrazovanje.domain.dto.attendance.SubjectAttendanceDto;
+import com.ftn.eobrazovanje.domain.dto.tests.SubjectStudentTestDto;
 import com.ftn.eobrazovanje.domain.entity.relational.SubjectStudentAttendance;
 import com.ftn.eobrazovanje.exception.SubjectStudentAttendanceNotFoundException;
+import com.ftn.eobrazovanje.service.StudentService;
 import com.ftn.eobrazovanje.service.SubjectStudentAttendanceService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +22,7 @@ import java.util.List;
 public class SubjectStudentAttendanceServiceImpl implements SubjectStudentAttendanceService {
 
     private final SubjectStudentAttendanceRepository subjectStudentAttendanceRepository;
+    private final StudentService studentService;
 
     @Override
     public SubjectStudentAttendance findById(Long id) {
@@ -59,4 +63,26 @@ public class SubjectStudentAttendanceServiceImpl implements SubjectStudentAttend
     public SubjectStudentAttendance findByStudentIdAndSubjectId(Long studentId, Long subjectId) {
         return subjectStudentAttendanceRepository.findByStudent_IdAndSubject_Id(studentId, subjectId);
     }
+
+    @Override
+    public List<SubjectAttendanceDto> findDtosForCurrentStudent() {
+        Long studentId = studentService.getCurrentStudent().getId();
+        return subjectStudentAttendanceRepository.findAllByStudent_Id(studentId).stream()
+                .map(attendance -> new SubjectAttendanceDto(
+                        attendance.getId(),
+                        attendance.getSubject().getTitle(),
+                        attendance.getFinalGrade(),
+                        attendance.isPassed(),
+                        attendance.getSubjectStudentTests().stream()
+                                .map(test -> new SubjectStudentTestDto(
+                                        test.getId(),
+                                        test.getSubjectTest().getTitle(),
+                                        test.getGrade(),
+                                        test.getPoints(),
+                                        test.isPassed(),
+                                        test.isAttended()))
+                                .toList()))
+                .toList();
+    }
 }
+

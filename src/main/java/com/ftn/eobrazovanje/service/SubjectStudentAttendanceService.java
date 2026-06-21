@@ -1,5 +1,6 @@
 package com.ftn.eobrazovanje.service;
 
+import com.ftn.eobrazovanje.domain.dto.attendance.SubjectAttendanceDto;
 import com.ftn.eobrazovanje.domain.entity.relational.SubjectStudentAttendance;
 
 import java.util.Collection;
@@ -22,4 +23,6 @@ public interface SubjectStudentAttendanceService {
     List<SubjectStudentAttendance> findAllByStudentId(Long studentId);
 
     SubjectStudentAttendance findByStudentIdAndSubjectId(Long studentId, Long subjectId);
+
+    List<SubjectAttendanceDto> findDtosForCurrentStudent();
 }
