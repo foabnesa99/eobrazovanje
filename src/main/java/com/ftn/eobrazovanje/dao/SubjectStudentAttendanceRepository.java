@@ -15,4 +15,6 @@ public interface SubjectStudentAttendanceRepository extends JpaRepository<Subjec
 
     SubjectStudentAttendance findByStudent_IdAndSubject_Id(Long studentId, Long subjectId);
 
+    void deleteAllByStudent_Id(Long studentId);
+
 }

@@ -20,5 +20,6 @@ public interface SubjectProfessorRepository extends JpaRepository<SubjectProfess
 """)
     List<SubjectProfessorSimpleDto> getSubjectProfessorSimpleDtosByUserId(Long userId);
 
+    void deleteAllByProfessor_Id(Long professorId);
 
 }

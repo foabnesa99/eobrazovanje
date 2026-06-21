@@ -10,4 +10,6 @@ import java.util.List;
 public interface StudentDocumentRepository extends JpaRepository<StudentDocument, Long> {
 
     List<StudentDocument> findAllByStudent_Id(Long studentId);
+
+    void deleteAllByStudent_Id(Long studentId);
 }

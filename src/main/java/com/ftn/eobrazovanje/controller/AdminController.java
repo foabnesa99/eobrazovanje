@@ -38,8 +38,6 @@ public class AdminController {
     private final SubjectService subjectService;
     private final StudentDocumentService studentDocumentService;
     private final StudentAccountTransactionService studentAccountTransactionService;
-    private final StudentService studentService;
-    private final ProfessorService professorService;
 
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "User successfully created"),
@@ -151,7 +149,7 @@ public class AdminController {
     @CrossOrigin(origins = "*")
     @DeleteMapping(value = "/professor/{id}")
     public ResponseEntity<Void> deleteProfessor(@PathVariable Long id) {
-        professorService.delete(id);
+        userService.deleteProfessor(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

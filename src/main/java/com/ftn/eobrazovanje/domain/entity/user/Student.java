@@ -17,7 +17,7 @@ import org.springframework.stereotype.Indexed;
 @Indexed
 @Entity(name = "student")
 @Table
-@SQLDelete(sql = "UPDATE student SET deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE student SET deleted = true WHERE id = ? and `version` = ?")
 @SQLRestriction("deleted = false")
 public class Student extends BaseEntity{
 

@@ -1,5 +1,8 @@
 package com.ftn.eobrazovanje.service.impl;
 
+import com.ftn.eobrazovanje.dao.StudentDocumentRepository;
+import com.ftn.eobrazovanje.dao.SubjectProfessorRepository;
+import com.ftn.eobrazovanje.dao.SubjectStudentAttendanceRepository;
 import com.ftn.eobrazovanje.dao.UserRepository;
 import com.ftn.eobrazovanje.domain.common.ProfessorRole;
 import com.ftn.eobrazovanje.domain.common.UserRole;
@@ -36,6 +39,9 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final StudentAccountService studentAccountService;
     private final PasswordEncoder passwordEncoder;
+    private final SubjectStudentAttendanceRepository subjectStudentAttendanceRepository;
+    private final StudentDocumentRepository studentDocumentRepository;
+    private final SubjectProfessorRepository subjectProfessorRepository;
 
     @Override
     public User createUser(UserCreateRequest userCreateRequest) {
@@ -129,6 +135,14 @@ public class UserServiceImpl implements UserService {
     public void deleteStudent(Long studentId) {
         Student student = studentService.findById(studentId);
         studyProgramService.removeStudentAssociation(student);
+        subjectStudentAttendanceRepository.deleteAllByStudent_Id(studentId);
+        studentDocumentRepository.deleteAllByStudent_Id(studentId);
         studentService.delete(studentId);
+    }
+
+    @Override
+    public void deleteProfessor(Long professorId) {
+        subjectProfessorRepository.deleteAllByProfessor_Id(professorId);
+        professorService.delete(professorId);
     }
 }

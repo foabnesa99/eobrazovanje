@@ -30,7 +30,7 @@ import static jakarta.persistence.EnumType.STRING;
 @Table
 @Entity
 @Indexed
-@SQLDelete(sql = "UPDATE user SET deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE user SET deleted = true WHERE id = ? and `version` = ?")
 @SQLRestriction("deleted = false")
 public class User extends BaseEntity{
 
