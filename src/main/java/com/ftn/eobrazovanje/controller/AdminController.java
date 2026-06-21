@@ -3,6 +3,8 @@ package com.ftn.eobrazovanje.controller;
 import com.ftn.eobrazovanje.domain.common.UserRole;
 import com.ftn.eobrazovanje.domain.dto.document.StudentDocumentCreateRequest;
 import com.ftn.eobrazovanje.domain.dto.document.StudentDocumentDto;
+import com.ftn.eobrazovanje.domain.dto.professor.ProfessorUpdateRequest;
+import com.ftn.eobrazovanje.domain.dto.student.StudentUpdateRequest;
 import com.ftn.eobrazovanje.domain.dto.studyProgramSubject.StudyProgramSubjectCreateRequest;
 import com.ftn.eobrazovanje.domain.dto.studyProgramSubject.StudyProgramSubjectPairingDto;
 import com.ftn.eobrazovanje.domain.dto.subject.SubjectCreateRequest;
@@ -178,6 +180,20 @@ public class AdminController {
     @DeleteMapping(value = "/program-subject/{subjectId}")
     public ResponseEntity<Void> deleteProgramSubject(@PathVariable Long subjectId) {
         subjectService.removeSubjectFromProgram(subjectId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*")
+    @PutMapping(value = "/student/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> updateStudent(@PathVariable Long id, @RequestBody StudentUpdateRequest request) {
+        userService.updateStudent(id, request);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*")
+    @PutMapping(value = "/professor/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> updateProfessor(@PathVariable Long id, @RequestBody ProfessorUpdateRequest request) {
+        userService.updateProfessor(id, request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

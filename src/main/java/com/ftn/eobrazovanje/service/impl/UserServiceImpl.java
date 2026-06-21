@@ -3,8 +3,11 @@ package com.ftn.eobrazovanje.service.impl;
 import com.ftn.eobrazovanje.dao.UserRepository;
 import com.ftn.eobrazovanje.domain.common.ProfessorRole;
 import com.ftn.eobrazovanje.domain.common.UserRole;
+import com.ftn.eobrazovanje.domain.dto.professor.ProfessorUpdateRequest;
 import com.ftn.eobrazovanje.domain.dto.security.CustomUserDetails;
+import com.ftn.eobrazovanje.domain.dto.student.StudentUpdateRequest;
 import com.ftn.eobrazovanje.domain.dto.user.UserCreateRequest;
+import com.ftn.eobrazovanje.domain.dto.user.UserDto;
 import com.ftn.eobrazovanje.domain.entity.StudentAccount;
 import com.ftn.eobrazovanje.domain.entity.user.Professor;
 import com.ftn.eobrazovanje.domain.entity.user.Student;
@@ -13,7 +16,6 @@ import com.ftn.eobrazovanje.exception.UserNotFoundException;
 import com.ftn.eobrazovanje.service.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -74,13 +76,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
-
-    @Override
-    public List<User> findAllProfessors() {
-        return userRepository.findAllByRole(UserRole.PROFESSOR);
+    public List<UserDto> findAllDtos() {
+        return userRepository.findAll().stream()
+                .map(user -> UserDto.builder()
+                        .id(user.getId())
+                        .email(user.getEmail())
+                        .firstName(user.getFirstName())
+                        .lastName(user.getLastName())
+                        .phone(user.getPhone())
+                        .role(user.getRole())
+                        .build())
+                .toList();
     }
 
     private void createProfessor(User user, ProfessorRole professorRole) {
@@ -94,5 +100,28 @@ public class UserServiceImpl implements UserService {
     public User fetchCurrentUser(){
         CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return getByEmail(customUserDetails.getUsername());
+    }
+
+    @Override
+    public void updateStudent(Long studentId, StudentUpdateRequest request) {
+        Student student = studentService.findById(studentId);
+        User user = student.getUser();
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setEmail(request.getEmail());
+        user.setPhone(request.getPhone());
+        studentService.update(student);
+        studyProgramService.updateStudentProgram(request.getStudyProgramId(), student);
+    }
+
+    @Override
+    public void updateProfessor(Long professorId, ProfessorUpdateRequest request) {
+        Professor professor = professorService.getById(professorId);
+        User user = professor.getUser();
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setEmail(request.getEmail());
+        user.setPhone(request.getPhone());
+        professorService.update(professor);
     }
 }
