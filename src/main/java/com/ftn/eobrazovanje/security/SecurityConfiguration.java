@@ -1,6 +1,5 @@
 package com.ftn.eobrazovanje.security;
 
-import com.ftn.eobrazovanje.configuration.CorsFilter;
 import com.ftn.eobrazovanje.security.jwt.JwtFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
